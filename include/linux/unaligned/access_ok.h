@@ -65,4 +65,16 @@ static __always_inline void put_unaligned_be64(u64 val, void *p)
 	*((__be64 *)p) = cpu_to_be64(val);
 }
 
+static inline void __put_unaligned_be24(const u32 val, u8 *p)
+{
+	*p++ = val >> 16;
+	*p++ = val >> 8;
+	*p++ = val;
+}
+
+static inline void put_unaligned_be24(const u32 val, void *p)
+{
+	__put_unaligned_be24(val, p);
+}
+
 #endif /* _LINUX_UNALIGNED_ACCESS_OK_H */
