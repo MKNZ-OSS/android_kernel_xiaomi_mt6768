@@ -2903,11 +2903,11 @@ void fsg_common_set_inquiry_string(struct fsg_common *common, const char *vn,
 	/* Prepare inquiryString */
 	i = get_default_bcdDevice();
 	snprintf(common->inquiry_string, sizeof(common->inquiry_string),
-		 "%-8s%-16s%04x", vn ?: "Linux",
+		 "%-8s%-16s%04x", vn ?: "MKNZ",
 		 /* Assume product name dependent on the first LUN */
 		 pn ?: ((*common->luns)->cdrom
-		     ? "File-CD Gadget"
-		     : "File-Stor Gadget"),
+		     ? "ODD Host"
+		     : "UMS Host"),
 		 i);
 }
 EXPORT_SYMBOL_GPL(fsg_common_set_inquiry_string);
