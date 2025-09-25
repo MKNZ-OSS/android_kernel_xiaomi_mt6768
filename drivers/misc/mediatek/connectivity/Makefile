@@ -51,7 +51,7 @@ endif
 
         export CONNAC_VER=1_0
         export MTK_PLATFORM_WMT=$(MTK_PLATFORM)
-        export TARGET_BOARD_PLATFORM_WMT="CONSYS_6768"
+        export TARGET_BOARD_PLATFORM_WMT=mt6768
 
         # for gen4m options
         export CONFIG_MTK_COMBO_WIFI_HIF=axi

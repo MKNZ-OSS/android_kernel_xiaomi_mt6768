@@ -73,10 +73,10 @@
 
 #include "connsys_debug_utility.h"
 
-//#ifdef OPLUS_BUG_STABILITY
+#ifdef OPLUS_BUG_STABILITY
 //WuGuotian@CONNECTIVITY.WIFI.HARDWARE.CRASH.1162003, 2020/11/20,temp close higt tmpe dump
 #include <soc/oplus/system/oppo_project.h>
-//#endif /* OPLUS_BUG_STABILITY */
+#endif /* OPLUS_BUG_STABILITY */
 
 #ifdef CONFIG_COMPAT
 #define COMPAT_WMT_IOCTL_SET_PATCH_NAME		_IOW(WMT_IOC_MAGIC, 4, compat_uptr_t)
@@ -724,8 +724,8 @@ LONG wmt_dev_tm_temp_query(VOID)
 		//WuGuotian@CONNECTIVITY.WIFI.HARDWARE.CRASH.1162003, 2020/11/20,Temperature version close higt tmpe dump
 		//wmt_lib_trigger_assert_keyword(WMTDRV_TYPE_WMT, 36, "Temperature too high");
 		//#else
-		if (get_eng_version() != HIGH_TEMP_AGING)
-			wmt_lib_trigger_assert_keyword(WMTDRV_TYPE_WMT, 36, "Temperature too high");
+		//if (get_eng_version() != HIGH_TEMP_AGING)
+		//	wmt_lib_trigger_assert_keyword(WMTDRV_TYPE_WMT, 36, "Temperature too high");
 		//#endif /* OPLUS_BUG_STABILITY */
 	}
 
