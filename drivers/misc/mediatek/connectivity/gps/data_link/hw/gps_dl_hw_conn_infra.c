@@ -88,6 +88,8 @@ void gps_dl_hw_do_gps_a2z_dump(void)
 {
 	GDL_HW_WR_GPS_REG(0x80073120, 1); /* enable A2Z */
 	GDL_HW_RD_GPS_REG(0x800706C0);
+	GDL_HW_RD_GPS_REG(0x80070450);
+	GDL_HW_RD_GPS_REG(0x80080450);
 }
 
 void gps_dl_hw_dump_sleep_prot_status(void)
@@ -237,6 +239,10 @@ bool gps_dl_hw_is_pta_clk_cfg_ready(void)
 	return okay;
 }
 
+void gps_dl_hw_set_ptk_clk_cfg(void)
+{
+	GDL_HW_SET_CONN_INFRA_ENTRY(CONN_INFRA_CFG_PTA_CLK, 0xF);
+}
 
 bool gps_dl_hw_is_pta_uart_init_done(void)
 {
@@ -402,8 +408,14 @@ void gps_dl_hw_disclaim_pta_used_by_gps(void)
 	/* Currently it's empty */
 }
 
-void gps_dl_hw_set_pta_blanking_parameter(void)
+void gps_dl_hw_set_pta_blanking_parameter(bool use_direct_path)
 {
+	if (use_direct_path) {
+		/* Use direct path - just cfg src, no other parameter */
+		GDL_HW_SET_CONN_INFRA_ENTRY(CONN_PTA6_GPS_BLANK_CFG_r_gps_blank_src, 1);
+		return;
+	}
+
 	/* Set timeout threashold: ms */
 	GDL_HW_SET_CONN_INFRA_ENTRY(CONN_PTA6_TMR_CTRL_3_r_gps_l5_blank_tmr_thld, 3);
 	GDL_HW_SET_CONN_INFRA_ENTRY(CONN_PTA6_TMR_CTRL_3_r_gps_l1_blank_tmr_thld, 3);
