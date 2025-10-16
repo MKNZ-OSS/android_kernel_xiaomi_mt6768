@@ -5,13 +5,13 @@ if [ ! -d "$1" ]; then
 	exit 1
 fi
 
-docker run \
+podman run \
 	-e WORKDIR=$(pwd) \
 	-e OUTDIR=$(pwd)/out \
 	-e TOOLSDIR=$(realpath "$1") \
-	-v .:/workspace/kernel \
-	-v ./out:/workspace/out \
-	-v "$1:/workspace/tools" \
+	-v .:/workspace/kernel:Z \
+	-v ./out:/workspace/out:Z \
+	-v "$1:/workspace/tools:Z" \
 	--rm \
 	android-kernel-builder \
 	merlin_defconfig

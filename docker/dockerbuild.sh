@@ -23,10 +23,12 @@ fi
 
 if [ ! -f /workspace/kernel/Makefile ]; then
 	echo "[-] Kernel not found. Make sure it is present at $(realpath $WORKDIR)."
+    exit 1
 fi
 
 if [ ! -d /workspace/tools/clang/bin ]; then
 	echo "[-] Clang toolchain not found. Make sure it is present at $(realpath $TOOLSDIR)/clang."
+    exit 1
 fi
 
 export PATH=/workspace/tools/clang/bin:$PATH
@@ -37,9 +39,11 @@ else
     make -j`nproc` O=/workspace/out ARCH=arm64 LLVM=1 LLVM_IAS=1 CC="ccache clang"
 fi
 
-sed -i "s~/workspace/kernel~$WORKDIR~g" /workspace/out/compile_commands.json
-sed -i "s~/workspace/out~$OUTDIR~g" /workspace/out/compile_commands.json
-sed -i "s~/workspace/tools~$TOOLSDIR~g" /workspace/out/compile_commands.json
-sed -i "s~\"clang\",~\"$TOOLSDIR/clang/bin/clang\",~g" /workspace/out/compile_commands.json
+if [ -f /workspace/out/compile_commands.json ]; then
+    sed -i "s~/workspace/kernel~$WORKDIR~g" /workspace/out/compile_commands.json
+    sed -i "s~/workspace/out~$OUTDIR~g" /workspace/out/compile_commands.json
+    sed -i "s~/workspace/tools~$TOOLSDIR~g" /workspace/out/compile_commands.json
+    sed -i "s~\"clang\",~\"$TOOLSDIR/clang/bin/clang\",~g" /workspace/out/compile_commands.json
+fi
 
 echo "[+] Successfully built kernel for $1"
